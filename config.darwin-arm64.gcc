@@ -1,0 +1,14 @@
+CC			= gcc
+CXX			= g++
+OBJECTEXTENSION		= o
+GAWK			= gawk
+SPLINT			= splint
+LCLINT			= lclint
+LD			= g++
+AR			= /usr/bin/ar
+RANLIB			= /usr/bin/ranlib
+BISON			= bison
+FLEXFLAGS		= -DFLEX64
+PLATFORM_CFLAGS 	=
+PLATFORM_LFLAGS 	= -framework OpenCL
+PLATFORM_OPTFLAGS	= -O0
