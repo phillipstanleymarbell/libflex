@@ -41,7 +41,7 @@
 #include "mathi.h"
 #include "kernel.h"
 #include "fcall.h"
-#include "flextypes.h"
+#include "flex-types.h"
 #include "flex.h"
 
 #ifdef linux

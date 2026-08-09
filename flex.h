@@ -161,7 +161,7 @@ typedef struct
 	int		off;		/*   Likewise, file offset	*/
 
 
-//TODO: this has been factored out into the FlexErrState structure. Update flexMalloc.c and flextoken.c which is
+//TODO: this has been factored out into the FlexErrState structure. Update flexMalloc.c and flex-tokenStream.c which is
 //where it is used
 //	/*	Called routines set or clear (i.e., [0]='\0') this:	*/
 //	char		errstr[kFlexErrorStringLength];

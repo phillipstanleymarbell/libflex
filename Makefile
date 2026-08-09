@@ -22,11 +22,11 @@ CFLAGS		= $(PLATFORM_DBGFLAGS) $(PLATFORM_CFLAGS) $(PLATFORM_DFLAGS) $(PLATFORM_
 
 LIBOBJS	=\
 	flex-$(OSTYPE).$(OBJECTEXTENSION)\
-	flextoken.$(OBJECTEXTENSION)\
-	flexmalloc.$(OBJECTEXTENSION)\
+	flex-tokenStream.$(OBJECTEXTENSION)\
+	flex-memoryAllocation.$(OBJECTEXTENSION)\
 
 HEADERS	=\
-	flexerror.h\
+	flex-error.h\
 	flex.h\
 
 all:	libflex-$(TARGET).a

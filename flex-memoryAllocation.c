@@ -39,8 +39,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "flextypes.h"
-#include "flexerror.h"
+#include "flex-types.h"
+#include "flex-error.h"
 #include "flex.h"
 
 static flexinline void		flexAllocationAccounting(FlexErrState *, FlexMstate *, FlexPrintBuf *, FlexAddr addr, char *id);
@@ -241,7 +241,7 @@ flexFree(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *ptr, char *id)
 	}
 	else
 	{
-		flexPrint(E, M, P, "flexmalloc.c/flexfree(): %s (%s)\n", Ebadfree, id);
+		flexPrint(E, M, P, "flex-memoryAllocation.c/flexfree(): %s (%s)\n", Ebadfree, id);
 	}
 
 	

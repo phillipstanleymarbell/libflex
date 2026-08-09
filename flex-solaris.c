@@ -45,7 +45,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <time.h>
-#include "flextypes.h"
+#include "flex-types.h"
 #include "flex.h"
 
 static flexinline void		checkh2o(int maxbufsz, FlexPrintBuf *P, char *buf);

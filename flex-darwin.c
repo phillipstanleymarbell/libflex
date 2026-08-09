@@ -44,8 +44,8 @@
 #include <sys/resource.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "flextypes.h"
-#include "flexerror.h"
+#include "flex-types.h"
+#include "flex-error.h"
 #include "flex.h"
 
 //TODO: 	(1) a lot of the routines in flex-darwin/linux/etc, particularly things like the buffered print routines and checkh2o, should be moved to a common file (flex-print.c?)
