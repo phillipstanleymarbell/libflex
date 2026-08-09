@@ -161,7 +161,7 @@ typedef struct
 	int		off;		/*   Likewise, file offset	*/
 
 
-//TODO: this has been factored out into the FlexErrState structure. Update flexmalloc.c and flextoken.c which is
+//TODO: this has been factored out into the FlexErrState structure. Update flexMalloc.c and flextoken.c which is
 //where it is used
 //	/*	Called routines set or clear (i.e., [0]='\0') this:	*/
 //	char		errstr[kFlexErrorStringLength];
@@ -351,40 +351,40 @@ typedef TupleList		FlexTupleList;
 /*	The Flexp (and thus the Flexm) routines will default to 	*/
 /*	printing stdout if a NULL FlexPrintBuf is supplied.		*/
 /*									*/
-void*	flexmalloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int size, char *id);
-void*	flexcalloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int nelem, int size, char *id);
-void*	flexrealloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *oldptr, int size, char *id);
-void	flexfree		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *ptr, char *id);
-void	flexmblocksdisplay	(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
+void*	flexMalloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int size, char *id);
+void*	flexCalloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int nelem, int size, char *id);
+void*	flexRealloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *oldptr, int size, char *id);
+void	flexFree		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *ptr, char *id);
+void	flexMemoryBlocksDisplay	(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
 void	flexincref		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *ptr);
 void	flexdecref		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *ptr);
-void	flexstreammunch		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
+void	flexStreamMunch		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 					const char *sepchars, const char *stickies, const char *buf, int *curline, int *curcol);
-void	flexstreamclear		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I);
-void	flexstreamscan		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I);
-void	flexstreamchk		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I, int maxtokens, int fmtchars);
-uvlong	flexfsize		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd);
-char*	flexfgets		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd);
-int	flexcreate		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode);
-int	flexopen		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode);
-int	flexread		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len);
-int	flexclose		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd);
-FlexPrintBuf*	flexbufalloc	(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode);
-void	flexbufdealloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund);
-void	flexbufreset		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
-int	flexwrite		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len);
-int	flexchdir		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path);
-char*	flexgetpwd		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
-void	flexprint		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, const char *fmt, ...);
+void	flexStreamClear		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I);
+void	flexStreamScan		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I);
+void	flexStreamCheck		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I, int maxtokens, int fmtchars);
+uvlong	flexFileSize		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd);
+char*	flexFgets		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd);
+int	flexCreate		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode);
+int	flexOpen		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode);
+int	flexRead		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len);
+int	flexClose		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd);
+FlexPrintBuf*	flexBufferAllocate	(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode);
+void	flexBufferDeallocate		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund);
+void	flexBufferReset		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
+int	flexWrite		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len);
+int	flexChangeDirectory		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path);
+char*	flexGetWorkingDirectory		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
+void	flexPrint		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, const char *fmt, ...);
 
 /*									*/
 /*	Simple routines that do not need error and print buffers.	*/
 /*									*/
 void	flexlock		(FlexLock *l);
 void	flexunlock		(FlexLock *l);
-int	flexsnprint		(char *dst, int size, const char *fmt, ...);
-void	flexnsleep		(ulong nsecs);
-ulong	flexusercputimeusecs	(void);
-ulong	flexcputimeusecs	(void);
-ulong	flexwallclockusecs	(void);
+int	flexSnprint		(char *dst, int size, const char *fmt, ...);
+void	flexNanosleep		(ulong nsecs);
+ulong	flexUserCpuTimeMicroseconds	(void);
+ulong	flexCpuTimeMicroseconds	(void);
+ulong	flexWallClockMicroseconds	(void);
 ulong	flextimeusecs		(void);

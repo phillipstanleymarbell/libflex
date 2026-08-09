@@ -84,7 +84,7 @@ checkh2o(int maxbufsz, FlexPrintBuf *P, char *buf)
 }
 
 uvlong
-flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	struct stat	sb;
 
@@ -97,17 +97,17 @@ flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 }
 
 void
-flexstatelock(FlexLock *l)
+flexStateLock(FlexLock *l)
 {
 }
 
 void
-flexstateunlock(FlexLock *l)
+flexStateUnlock(FlexLock *l)
 {
 }
 
 char *
-flexfgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd)
+flexFgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd)
 {
 	int 	n, i = 0;
 	char	ch;
@@ -137,7 +137,7 @@ flexfgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, i
 }
 
 int
-flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
+flexCreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 {
 	int	perm = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP;
 	int	flags = 0;
@@ -163,7 +163,7 @@ flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode
 }
 
 int
-flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
+flexOpen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 {
 	int	perm = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP;
 	int	flags = 0;
@@ -188,31 +188,31 @@ flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 }
 
 int
-flexread(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
+flexRead(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
 {
 	return read(fd, buf, len);
 }
 
 int
-flexclose(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexClose(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	return close(fd);
 }
 
 int
-flexwrite(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
+flexWrite(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
 {
 	return write(fd, buf, len);
 }
 
 int
-flexchdir(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path)
+flexChangeDirectory(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path)
 {
 	return chdir(path);
 }
 
 char *
-flexgetpwd(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
+flexGetWorkingDirectory(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
 {
 	/*								*/
 	/*	This is non-POSIX, but...				*/
@@ -223,7 +223,7 @@ flexgetpwd(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
 }
 
 int
-flexsnprint(char *dst, int size, char *fmt, ...)
+flexSnprint(char *dst, int size, char *fmt, ...)
 {
 	va_list		arg;
 	int		n;
@@ -236,12 +236,12 @@ flexsnprint(char *dst, int size, char *fmt, ...)
 }
 
 FlexPrintBuf*
-flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode)
+flexBufferAllocate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode)
 {
 	FlexPrintBuf	*tmpflexbuf;
 
 
-	tmpflexbuf = (FlexPrintBuf *)flexcalloc(E, M, P, 1, sizeof(FlexPrintBuf),
+	tmpflexbuf = (FlexPrintBuf *)flexCalloc(E, M, P, 1, sizeof(FlexPrintBuf),
 					"FlexPrintBuf* in flex-darwin.c/flexbufalloc");
 	if (tmpflexbuf == NULL)
 	{
@@ -259,7 +259,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 
 	if (circbufsz > 0)
 	{
-		tmpflexbuf->circbuf = (char *)flexcalloc(E, M, P, 1, circbufsz,
+		tmpflexbuf->circbuf = (char *)flexCalloc(E, M, P, 1, circbufsz,
 						"FlexPrintBuf->char* in flex-darwin.c/flexbufalloc");
 		if (tmpflexbuf->circbuf == NULL)
 		{
@@ -279,7 +279,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 	tmpflexbuf->fd = -1;
 	if (filename != NULL)
 	{
-		tmpflexbuf->fd = flexcreate(E, M, P, filename, mode);
+		tmpflexbuf->fd = flexCreate(E, M, P, filename, mode);
 		if (tmpflexbuf->fd <= 2)
 		{
 			if (E != NULL)
@@ -300,7 +300,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 }
 
 void
-flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund)
+flexBufferDeallocate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund)
 {
 	if (moribund == NULL)
 	{
@@ -309,12 +309,12 @@ flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *mo
 
 	if (moribund->circbuf != NULL)
 	{
-		flexfree(E, M, P, moribund->circbuf, "flex-darwin.c/flexbufdealloc");
+		flexFree(E, M, P, moribund->circbuf, "flex-darwin.c/flexbufdealloc");
 	}
 
 	if (moribund->fd != -1)
 	{
-		flexclose(E, M, P, moribund->fd);
+		flexClose(E, M, P, moribund->fd);
 	}
 
 
@@ -322,7 +322,7 @@ flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *mo
 }
 
 void
-flexbufreset(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
+flexBufferReset(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
 {
 	if (P->circbuf == NULL)
 	{
@@ -338,7 +338,7 @@ flexbufreset(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
 }
 
 void
-flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
+flexPrint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 {
 	int	fmtlen;
 	char	*buf;
@@ -353,7 +353,7 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	/*								*/
 	/*	If failing due to memory, further prints go to stderr	*/
 	/*								*/
-	buf = flexcalloc(E, M, NULL, 1, kFlexCircularBufferSize, "flex-darwin.c:flexprint/buf");
+	buf = flexCalloc(E, M, NULL, 1, kFlexCircularBufferSize, "flex-darwin.c:flexprint/buf");
 	if (buf == NULL)
 	{
 		fprintf(stderr, "Could not allocate memory for (char *)buf in flex-darwin.c/flexprint.\n");
@@ -368,7 +368,7 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	if (fmtlen < 0)
 	{
 		fprintf(stderr, "vsnprintf() in flexprint() failed.\n");
-		flexfree(E, M, NULL, buf, "flex-darwin.c:flexprint/buf");
+		flexFree(E, M, NULL, buf, "flex-darwin.c:flexprint/buf");
 
 		return;
 	}
@@ -388,14 +388,14 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 		checkh2o(kFlexCircularBufferSize, P, buf);
 	}
 
-	flexfree(E, M, NULL, buf, "flex-darwin.c:flexprint/buf");
+	flexFree(E, M, NULL, buf, "flex-darwin.c:flexprint/buf");
 
 
 	return;
 }
 
 void
-flexnsleep(ulong nsecs)
+flexNanosleep(ulong nsecs)
 {
 	/*								*/
 	/*	Inferno doesn't provide us with enough granularity.	*/
@@ -411,7 +411,7 @@ flexnsleep(ulong nsecs)
 }
 
 ulong
-flexusercputimeusecs(void)
+flexUserCpuTimeMicroseconds(void)
 {
 	struct rusage 	r;
 
@@ -421,7 +421,7 @@ flexusercputimeusecs(void)
 }
 
 ulong
-flexcputimeusecs(void)
+flexCpuTimeMicroseconds(void)
 {
 	struct rusage 	r;
 
@@ -432,7 +432,7 @@ flexcputimeusecs(void)
 }
 
 ulong
-flexwallclockusecs(void)
+flexWallClockMicroseconds(void)
 {
 	struct timeval 	t;
 	gettimeofday(&t, NULL);

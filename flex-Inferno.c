@@ -92,7 +92,7 @@ checkh2o(int maxbufsz, int *h2o, char *circbuf, char *buf)
 }
 
 int
-flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	struct stat	sb;
 
@@ -105,7 +105,7 @@ flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 }
 
 int
-flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 /*
 	The kseek approach is much simpler, but I don't see
@@ -144,7 +144,7 @@ flexunlock(FlexLock *l)
 }
 
 char*
-flexfgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd)
+flexFgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd)
 {
 	int 	n, i = 0;
 	char	ch;
@@ -183,7 +183,7 @@ TODO: i'm not happy with the way the flags are handled. they should be 1 << iota
 should be able to specify X|Y|Z
 
 int
-flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
+flexCreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
 {
 	int	mode = 0;
 	int	rw = omode & (~kFlexFileModeTruncate);
@@ -209,7 +209,7 @@ flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omod
 
 
 int
-flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
+flexOpen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
 {
 	int	mode = 0;
 	int	rw = omode & (~kFlexFileModeTruncate);
@@ -229,38 +229,38 @@ flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
 }
 
 int
-flexread(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
+flexRead(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
 {
 	return kread(fd, buf, len);
 }
 
 int
-flexclose(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexClose(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	return kclose(fd);
 }
 
 int
-flexwrite(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
+flexWrite(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
 {
 	return kwrite(fd, buf, len);
 }
 
 int
-flexchdir(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path)
+flexChangeDirectory(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path)
 {
 	return kchdir(path);
 }
 
 char*
-flexgetpwd(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, )
+flexGetWorkingDirectory(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, )
 {
 	int fd = kopen(".", OREAD);
 	return kfd2path(fd);
 }
 
 int
-flexsnprint(char *dst, int size, char *fmt, ...)
+flexSnprint(char *dst, int size, char *fmt, ...)
 {
 	va_list		arg;
 	int		n;
@@ -273,12 +273,12 @@ flexsnprint(char *dst, int size, char *fmt, ...)
 }
 
 FlexPrintBuf*
-flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode)
+flexBufferAllocate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode)
 {
 	FlexPrintBuf	*tmpflexbuf;
 
 
-	tmpflexbuf = (FlexPrintBuf *)flexcalloc(E, M, P, 1, sizeof(FlexPrintBuf),
+	tmpflexbuf = (FlexPrintBuf *)flexCalloc(E, M, P, 1, sizeof(FlexPrintBuf),
 					"FlexPrintBuf* in flex-darwin.c/flexbufalloc");
 	if (tmpflexbuf == NULL)
 	{
@@ -296,7 +296,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 
 	if (circbufsz > 0)
 	{
-		tmpflexbuf->circbuf = (char *)flexcalloc(E, M, P, 1, circbufsz,
+		tmpflexbuf->circbuf = (char *)flexCalloc(E, M, P, 1, circbufsz,
 						"FlexPrintBuf->char* in flex-darwin.c/flexbufalloc");
 		if (tmpflexbuf->circbuf == NULL)
 		{
@@ -316,7 +316,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 	tmpflexbuf->fd = -1;
 	if (filename != NULL)
 	{
-		tmpflexbuf->fd = flexcreate(E, M, P, filename, mode);
+		tmpflexbuf->fd = flexCreate(E, M, P, filename, mode);
 		if (tmpflexbuf->fd <= 2)
 		{
 			if (E != NULL)
@@ -337,7 +337,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 }
 
 void
-flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund)
+flexBufferDeallocate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund)
 {
 	if (moribund == NULL)
 	{
@@ -346,12 +346,12 @@ flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *mo
 
 	if (moribund->circbuf != NULL)
 	{
-		flexfree(E, M, P, moribund->circbuf, "flex-darwin.c/flexbufdealloc");
+		flexFree(E, M, P, moribund->circbuf, "flex-darwin.c/flexbufdealloc");
 	}
 
 	if (moribund->fd != -1)
 	{
-		flexclose(E, M, P, moribund->fd);
+		flexClose(E, M, P, moribund->fd);
 	}
 
 
@@ -359,7 +359,7 @@ flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *mo
 }
 
 void
-flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
+flexPrint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 {
 	int	fmtlen;
 	char	*buf, *end;
@@ -374,7 +374,7 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	/*								*/
 	/*	If failing due to memory, further prints go to stderr	*/
 	/*								*/
-	buf = flexcalloc(M, NULL, 1, kFlexCircularBufferSize, "flex-Inferno.c:flexprint/buf");
+	buf = flexCalloc(M, NULL, 1, kFlexCircularBufferSize, "flex-Inferno.c:flexprint/buf");
 	if (buf == NULL)
 	{
 		fprint(2, "Could not allocate memory for (char *)buf in flex-darwin.c/flexprint.\n");
@@ -389,7 +389,7 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	if (end == NULL || end < buf || end > buf+kFlexCircularBufferSize)
 	{
 		fprint(t, "vseprint() in flexprint() failed.\n");
-		flexfree(M, NULL, buf, "flex-Inferno.c:flexprint/buf");
+		flexFree(M, NULL, buf, "flex-Inferno.c:flexprint/buf");
 
 		return;
 	}
@@ -410,14 +410,14 @@ TODO: (also in other archs: if the write failed, append message to E->errstr)
 		checkh2o(kFlexCircularBufferSize, P, buf);
 	}
 
-	flexfree(M, NULL, buf, "flex-Inferno.c:flexprint/buf");
+	flexFree(M, NULL, buf, "flex-Inferno.c:flexprint/buf");
 
 
 	return;
 }
 
 void
-flexnsleep(ulong nsecs)
+flexNanosleep(ulong nsecs)
 {
 #ifdef	_WIN32_WINNT
 	osmillisleep(nsecs/1000000);
@@ -438,7 +438,7 @@ flexnsleep(ulong nsecs)
 
 #ifdef EMU
 ulong
-flexusercputimeusecs(void)
+flexUserCpuTimeMicroseconds(void)
 {
 	struct rusage 	r;
 
@@ -449,7 +449,7 @@ flexusercputimeusecs(void)
 
 
 ulong
-flexcputimeusecs(void)
+flexCpuTimeMicroseconds(void)
 {
 	struct rusage 	r;
 
@@ -460,7 +460,7 @@ flexcputimeusecs(void)
 }
 
 ulong
-flexwallclockusecs(void)
+flexWallClockMicroseconds(void)
 {
 	struct timeval 	t;
 	gettimeofday(&t, NULL);
@@ -469,19 +469,19 @@ flexwallclockusecs(void)
 }
 #else
 ulong
-flexusercputimeusecs(void)
+flexUserCpuTimeMicroseconds(void)
 {
 	return osusectime();
 }
 
 ulong
-flexcputimeusecs(void)
+flexCpuTimeMicroseconds(void)
 {
 	return osusectime();
 }
 
 ulong
-flexwallclockusecs(void)
+flexWallClockMicroseconds(void)
 {
 	return osusectime();
 }
@@ -501,7 +501,7 @@ flextimeusecs(void)
 
 
 
-TODO: delete this entirely. replace all uses of mlog with flexprint, to a printbuf previously opened on the S->logfd
+TODO: delete this entirely. replace all uses of mlog with flexPrint, to a printbuf previously opened on the S->logfd
 void
 mlog(FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 {
@@ -536,7 +536,7 @@ mlog(FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	return;
 }
 
-TODO: replace all uses of flexerror / merror with flexprint to an appropriate FlexPrintBuf...
+TODO: replace all uses of flexerror / merror with flexPrint to an appropriate FlexPrintBuf...
 void
 flexerror(FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 {

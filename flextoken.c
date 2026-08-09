@@ -60,7 +60,7 @@ issticky(const char *  stickies, char c)
 }
 
 void
-flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S, const char *sepchars, const char *stickies, const char *buf, int *curline, int *curcol)
+flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S, const char *sepchars, const char *stickies, const char *buf, int *curline, int *curcol)
 {	
 	int 	eaten = 0;
 	Input	*I = &S->istream;
@@ -73,10 +73,10 @@ flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			Datum	*t1;
 
 
-			t1 = (Datum *) flexmalloc(E, M, P, sizeof(Datum), "flextoken.c:flexstreammunch/t1");
+			t1 = (Datum *) flexMalloc(E, M, P, sizeof(Datum), "flextoken.c:flexstreammunch/t1");
 			if (t1 == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for Datum *t1");
 
 				return;
@@ -87,13 +87,13 @@ flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			//obsolete. Delete if not used in sflr after merge:	t1->value = 0;
 			t1->quoted = 0;
 
-			t1->data = (char*) flexmalloc(E, M, P, (strlen(buf)+1)*sizeof(char),
+			t1->data = (char*) flexMalloc(E, M, P, (strlen(buf)+1)*sizeof(char),
 						"flextoken.c:flexstreammunch/t1->data");
 			if (t1->data == NULL)
 			{
-				flexfree(E, M, P, t1, "flextoken.c:flexstreammunch/t1");
+				flexFree(E, M, P, t1, "flextoken.c:flexstreammunch/t1");
 
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for char *t1->data");
 
 				return;
@@ -208,8 +208,8 @@ flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			}
 			else
 			{
-				flexfree(E, M, P, t1->data, "flextoken.c:flexstreammunch/t1->data");
-				flexfree(E, M, P, t1, "flextoken.c:flexstreammunch/t1");
+				flexFree(E, M, P, t1->data, "flextoken.c:flexstreammunch/t1->data");
+				flexFree(E, M, P, t1, "flextoken.c:flexstreammunch/t1");
 			}
 
 			/*									*/
@@ -223,7 +223,7 @@ flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 }
 
 void
-flexstreamclear(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
+flexStreamClear(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 {
 	Datum	*p, *q;
 
@@ -231,9 +231,9 @@ flexstreamclear(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 	while (p != NULL)
 	{
 		q = p;
-		flexfree(E, M, P, p->data, "flextoken.c:flexstreamclear/p->data");
+		flexFree(E, M, P, p->data, "flextoken.c:flexstreamclear/p->data");
 		p = p->prev;
-		flexfree(E, M, P, q, "flextoken.c:flexstreamclear/q");
+		flexFree(E, M, P, q, "flextoken.c:flexstreamclear/q");
 	}
 	I->istream.tail = I->istream.head = I->istream.masthead = NULL;
 
@@ -241,7 +241,7 @@ flexstreamclear(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 }
 
 void
-flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
+flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 {
 	Datum	*tmpistream = I->istream.tail;
 
@@ -251,11 +251,11 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 		/* 	If it is new a label, add it to labellist 		*/
 		if (tmpistream->data[strlen(tmpistream->data)-1] == ':')
 		{
-			Datum*	tmplabel = (Datum *) flexmalloc(E, M, P, sizeof(Datum),
+			Datum*	tmplabel = (Datum *) flexMalloc(E, M, P, sizeof(Datum),
 							"flextoken.c:flexstreamscan/tmplabel");
 			if (tmplabel == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flextoken.c:flexstreamscan/tmplabel");
 
@@ -264,13 +264,13 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 
 			tmplabel->next = NULL;
 			tmplabel->prev = NULL;
-			tmplabel->data = (char*) flexmalloc(E, M, P, strlen(tmpistream->data)*sizeof(char),
+			tmplabel->data = (char*) flexMalloc(E, M, P, strlen(tmpistream->data)*sizeof(char),
 							"flextoken.c:flexstreamscan/tmplabel->data");
 			if (tmplabel->data == NULL)
 			{
-				flexfree(E, M, P, tmplabel, "flextoken.c:flexstreamscan/tmplabel");
+				flexFree(E, M, P, tmplabel, "flextoken.c:flexstreamscan/tmplabel");
 
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for char *tmplabel->data, main.c");
 
 				return;
@@ -303,11 +303,11 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 		/*	If it is a global definition (".comm"), add it to labellist	*/
 		if (!strcmp(tmpistream->data, ".comm"))
 		{
-			Datum* tmplabel = (Datum *) flexmalloc(E, M, P, sizeof(Datum),
+			Datum* tmplabel = (Datum *) flexMalloc(E, M, P, sizeof(Datum),
 						"flextoken.c:flexstreamscan/tmplabel");
 			if (tmplabel == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flextoken.c:flexstreamscan/tmplabel");
 
@@ -318,7 +318,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			tmpistream = tmpistream->prev;
 			if (tmpistream == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Badly formed input stream: \".comm\" without a var name");
 
@@ -328,11 +328,11 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			tmplabel->next = NULL;
 			tmplabel->prev = NULL;
 
-			tmplabel->data = (char*) flexmalloc(E, M, P, strlen(tmpistream->data)*sizeof(char),
+			tmplabel->data = (char*) flexMalloc(E, M, P, strlen(tmpistream->data)*sizeof(char),
 					"flextoken.c:flexstreamscan/tmplabel->data");
 			if (tmplabel->data == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
+//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flextoken.c:flexstreamscan/tmplabel->data");
 
@@ -374,7 +374,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 }
 
 void
-flexstreamchk(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I, int maxtokens, int fmtchars)
+flexStreamCheck(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I, int maxtokens, int fmtchars)
 {
 	int	tripchars = 0, done = 0;
 	Datum	*tmp = I->istream.head;
@@ -382,31 +382,31 @@ flexstreamchk(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I, i
 
 	if (tmp != NULL && tmp->data != NULL)
 	{
-		flexprint(E, M, P, "\tline %5d, token %3d\t", tmp->linenum, tmp->colnum);
+		flexPrint(E, M, P, "\tline %5d, token %3d\t", tmp->linenum, tmp->colnum);
 	}
 	
 	while (tmp != NULL)
 	{
 		if (maxtokens > 0 && (done++ > maxtokens))
 		{
-			flexprint(E, M, P, "...");
+			flexPrint(E, M, P, "...");
 			break;
 		}
 
 		if (tmp->data != NULL && !strncmp(tmp->data, "\n", 1))
 		{
-			flexprint(E, M, P, "(newline)");
+			flexPrint(E, M, P, "(newline)");
 			tripchars = 0;
 
 			if (tmp->prev != NULL)
 			{
 				/*	If this is not end of stream, generate the \n\t for next line		*/
-				flexprint(E, M, P, "\n\tline %5d\t\t", tmp->linenum+1);
+				flexPrint(E, M, P, "\n\tline %5d\t\t", tmp->linenum+1);
 			}
 		}
 		else
 		{
-			flexprint(E, M, P, "'%s%s%s' ", (tmp->quoted ? "\"" : ""), tmp->data, (tmp->quoted ? "\"" : ""));
+			flexPrint(E, M, P, "'%s%s%s' ", (tmp->quoted ? "\"" : ""), tmp->data, (tmp->quoted ? "\"" : ""));
 			
 			/*						*/
 			/*	Account for the output string and the	*/
@@ -417,13 +417,13 @@ flexstreamchk(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I, i
 			if (tripchars >= fmtchars)
 			{
 				tripchars = 0;
-				flexprint(E, M, P, "\n\t\t\t\t");
+				flexPrint(E, M, P, "\n\t\t\t\t");
 			}
 		}
 
 		tmp = tmp->prev;
 	}
-	flexprint(E, M, P, "\n");
+	flexPrint(E, M, P, "\n");
 
 	return;
 }
