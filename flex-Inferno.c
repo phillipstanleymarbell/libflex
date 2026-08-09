@@ -1,39 +1,39 @@
 /*
-	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
- 
-	All rights reserved.
-
-	Redistribution and use in source and binary forms, with or without 
-	modification, are permitted provided that the following conditions
-	are met:
-
-	*	Redistributions of source code must retain the above
-		copyright notice, this list of conditions and the following
-		disclaimer.
-
-	*	Redistributions in binary form must reproduce the above
-		copyright notice, this list of conditions and the following
-		disclaimer in the documentation and/or other materials
-		provided with the distribution.
-
-	*	Neither the name of the author nor the names of its
-		contributors may be used to endorse or promote products
-		derived from this software without specific prior written 
-		permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	POSSIBILITY OF SUCH DAMAGE.
-*/
+ *	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
+ *
+ *	All rights reserved.
+ *
+ *	Redistribution and use in source and binary forms, with or without
+ *	modification, are permitted provided that the following conditions
+ *	are met:
+ *
+ *	*	Redistributions of source code must retain the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer.
+ *
+ *	*	Redistributions in binary form must reproduce the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer in the documentation and/or other materials
+ *		provided with the distribution.
+ *
+ *	*	Neither the name of the author nor the names of its
+ *		contributors may be used to endorse or promote products
+ *		derived from this software without specific prior written
+ *		permission.
+ *
+ *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *	POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include <time.h>
 #include <stdlib.h>
@@ -69,7 +69,7 @@ checkh2o(int maxbufsz, int *h2o, char *circbuf, char *buf)
 	{
 		n = maxbufsz;
 	}
-	
+
 	ndelete = *h2o - (maxbufsz - n);
 	if (ndelete < 0)
 	{
@@ -107,17 +107,17 @@ flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 int
 flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
-/*
-	The kseek approach is much simpler, but I don't see
-	what's buggered with this:
-	
-	char	buf[STATFIXLEN*4];
-	Dir	d;
-
-	kfstat(fd, &buf[0], STATFIXLEN*4);
-	convM2D(&buf[0], STATFIXLEN*4, &d, nil);
-	return d.length;
-*/
+	/*
+	 *	The kseek approach is much simpler, but I don't see
+	 *	what's buggered with this:
+	 *
+	 *	char	buf[STATFIXLEN*4];
+	 *	Dir	d;
+	 *
+	 *	kfstat(fd, &buf[0], STATFIXLEN*4);
+	 *	convM2D(&buf[0], STATFIXLEN*4, &d, nil);
+	 *	return d.length;
+	 */
 	int	off, length;
 
 	off = kseek(fd, 0, 1);
@@ -148,7 +148,7 @@ flexFgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, i
 {
 	int 	n, i = 0;
 	char	ch;
-	
+
 	if (len <= 0)
 	{
 		return NULL;
@@ -169,15 +169,15 @@ flexFgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, i
 	} while ((i < len) && (ch != '\n'));
 	buf[i] = '\0';
 
-	
+
 	return buf;
 }
 
 /*
-	TODO: there are many problems with our open/create management under
-	inferno. Under slax linux liveCD, we cannot write to sunflower.out
-	(we keep getting fd=0).
-*/
+ *	TODO: there are many problems with our open/create management under
+ *	inferno. Under slax linux liveCD, we cannot write to sunflower.out
+ *	(we keep getting fd=0).
+ */
 
 TODO: i'm not happy with the way the flags are handled. they should be 1 << iota, and you
 should be able to specify X|Y|Z
@@ -191,7 +191,7 @@ flexCreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omod
 
 	if (rw == kFlexFileModeRead)
 		mode = OREAD;
-	
+
 	if (rw == kFlexFileModeWrite)
 		mode = OWRITE;
 
@@ -223,7 +223,7 @@ flexOpen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
 		mode = ORDWR;
 	if (mode & kFlexFileModeTruncate)
 		mode |= OTRUNC;
-	
+
 
 	return kopen(path, mode);
 }
@@ -371,9 +371,9 @@ flexPrint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 		return;
 	}
 
-	/*								*/
-	/*	If failing due to memory, further prints go to stderr	*/
-	/*								*/
+	/*
+	 *	If failing due to memory, further prints go to stderr
+	 */
 	buf = flexCalloc(M, NULL, 1, kFlexCircularBufferSize, "flex-Inferno.c:flexprint/buf");
 	if (buf == NULL)
 	{
@@ -385,7 +385,7 @@ flexPrint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	va_start(arg, fmt);
 	end = vseprint(buf, buf+kFlexCircularBufferSize, fmt, arg);
 	va_end(arg);
- 
+
 	if (end == NULL || end < buf || end > buf+kFlexCircularBufferSize)
 	{
 		fprint(t, "vseprint() in flexprint() failed.\n");
@@ -422,13 +422,13 @@ flexNanosleep(ulong nsecs)
 #ifdef	_WIN32_WINNT
 	osmillisleep(nsecs/1000000);
 #else
-	/*								*/
-	/*	Inferno 3.0 doesn't provide us with enough granularity.	*/
-	/*	This should still be fairly portable since nanosleep	*/
-	/*	is POSIX.1b ... yeah, right.				*/
-	/*								*/
+	/*
+	 *	Inferno 3.0 doesn't provide us with enough granularity.
+	 *	This should still be fairly portable since nanosleep
+	 *	is POSIX.1b ... yeah, right.
+	 */
 	struct timespec rqtp;
-	
+
 	rqtp.tv_sec = nsecs/1000000000;
 	rqtp.tv_nsec = nsecs % 1000000000;
 
@@ -553,7 +553,7 @@ flexerror(FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	va_start(arg, fmt);
 	vseprint(buf, buf+MAX_MIO_BUFSZ, fmt, arg);
 	va_end(arg);
- 
+
 	mprint(E, NULL, siminfo, "%s: %s\n", Eerrorstr, buf);
 	mfree(E, buf, "(char *)buf in arch-Inferno.c");
 

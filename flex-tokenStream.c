@@ -1,46 +1,46 @@
 /*
-	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
- 
-	All rights reserved.
-
-	Redistribution and use in source and binary forms, with or without 
-	modification, are permitted provided that the following conditions
-	are met:
-
-	*	Redistributions of source code must retain the above
-		copyright notice, this list of conditions and the following
-		disclaimer.
-
-	*	Redistributions in binary form must reproduce the above
-		copyright notice, this list of conditions and the following
-		disclaimer in the documentation and/or other materials
-		provided with the distribution.
-
-	*	Neither the name of the author nor the names of its
-		contributors may be used to endorse or promote products
-		derived from this software without specific prior written 
-		permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	POSSIBILITY OF SUCH DAMAGE.
-*/
+ *	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
+ *
+ *	All rights reserved.
+ *
+ *	Redistribution and use in source and binary forms, with or without
+ *	modification, are permitted provided that the following conditions
+ *	are met:
+ *
+ *	*	Redistributions of source code must retain the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer.
+ *
+ *	*	Redistributions in binary form must reproduce the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer in the documentation and/or other materials
+ *		provided with the distribution.
+ *
+ *	*	Neither the name of the author nor the names of its
+ *		contributors may be used to endorse or promote products
+ *		derived from this software without specific prior written
+ *		permission.
+ *
+ *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *	POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include <string.h>
 #include <stdio.h>
 #include "flex-types.h"
 #include "flex.h"
 
-//TODO: need to rewrite the token stream handling; this is a disgrace.
+/*	TODO: need to rewrite the token stream handling; this is a disgrace.	*/
 
 
 static int	issepchar(const char *  sepchars, char c);
@@ -61,7 +61,7 @@ issticky(const char *  stickies, char c)
 
 void
 flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S, const char *sepchars, const char *stickies, const char *buf, int *curline, int *curcol)
-{	
+{
 	int 	eaten = 0;
 	Input	*I = &S->istream;
 
@@ -76,7 +76,7 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			t1 = (Datum *) flexMalloc(E, M, P, sizeof(Datum), "flex-tokenStream.c:flexstreammunch/t1");
 			if (t1 == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for Datum *t1");
 
 				return;
@@ -93,7 +93,7 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			{
 				flexFree(E, M, P, t1, "flex-tokenStream.c:flexstreammunch/t1");
 
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for char *t1->data");
 
 				return;
@@ -106,12 +106,12 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 				eaten++;
 			}
 
-			/*							*/
-			/*   I refer to tokens such as '(' etc. as "sticky":	*/
-			/*   they may be "stuck" onto another token, and are	*/
-			/*   NOT separators : we have to allocate a list entry 	*/
-			/*   for them. 	So, get one sticky char:		*/
-			/*							*/
+			/*
+			 *	I refer to tokens such as '(' etc. as "sticky":
+			 *	they may be "stuck" onto another token, and are
+			 *	NOT separators : we have to allocate a list entry
+			 *	for them. 	So, get one sticky char:
+			 */
 			if (issticky(stickies, buf[eaten]))
 			{
 				*tptr++ = buf[eaten++];
@@ -121,20 +121,20 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 					(eaten < strlen(buf))
 				)
 			{
-				/*						*/
-				/*	Get all non sepchars into t1->data	*/
-				/*	If we see a quoted string, "*" (_not_	*/
-				/*	'*'), gobble it including any sepchars,	*/
-				/*	till end of input (we get line @a time)	*/
-				/*	or matching quote.			*/
-				/*						*/
+				/*
+				 *	Get all non sepchars into t1->data
+				 *	If we see a quoted string, "*" (_not_
+				 *	'*'), gobble it including any sepchars,
+				 *	till end of input (we get line @a time)
+				 *	or matching quote.
+				 */
 				if (buf[eaten] == '"')
 				{
-					/*						*/
-					/*	Mark as "quoted", thus even though	*/
-					/*	item in data may be "2", its may be	*/
-					/*	as a string, not an int by users	*/
-					/*						*/
+					/*
+					 *	Mark as "quoted", thus even though
+					 *	item in data may be "2", its may be
+					 *	as a string, not an int by users
+					 */
 					t1->quoted = 1;
 
 					/*		Discard opening quote:		*/
@@ -147,7 +147,7 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 					{
 						*tptr++ = buf[eaten++];
 					}
-					
+
 					/*	Discard trailing quote if its there:	*/
 					if (eaten < strlen(buf) && (buf[eaten] == '"'))
 					{
@@ -177,15 +177,15 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 				{
 					*curcol = *curcol + 1;
 				}
-								
+
 				if ((I->head == NULL)  || (I->tail == NULL))
 				{
 					I->tail = I->head = I->masthead = t1;
 
-					/*							*/
-					/*    NOTE tail and head now point to the lone datum 	*/
-					/*    and they _both_ have null pre- and next-.		*/
-					/*							*/
+					/*
+					 *	NOTE tail and head now point to the lone datum
+					 *	and they _both_ have null pre- and next-.
+					 */
 					I->masthead->prev = NULL;
 					I->masthead->next = NULL;
 
@@ -197,10 +197,10 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 				}
 				else
 				{
-					/*							*/
-					/*  Add new datum to _tail_ of list. MUST keep it FIFO 	*/
-					/*  for the asm to be parsed correctly.			*/
-					/*							*/
+					/*
+					 *	Add new datum to _tail_ of list. MUST keep it FIFO
+					 *	for the asm to be parsed correctly.
+					 */
 					t1->next = I->tail;
 					I->tail->prev = t1;
 					I->tail = t1;
@@ -212,9 +212,9 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 				flexFree(E, M, P, t1, "flex-tokenStream.c:flexstreammunch/t1");
 			}
 
-			/*									*/
-			/*	Items on the FlexIstream must be deallocated by our caller	*/
-			/*									*/
+			/*
+			 *	Items on the FlexIstream must be deallocated by our caller
+			 */
 		}
 	}
 
@@ -255,7 +255,7 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 							"flex-tokenStream.c:flexstreamscan/tmplabel");
 			if (tmplabel == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flex-tokenStream.c:flexstreamscan/tmplabel");
 
@@ -270,12 +270,12 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			{
 				flexFree(E, M, P, tmplabel, "flex-tokenStream.c:flexstreamscan/tmplabel");
 
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for char *tmplabel->data, svm-consoleMain.c");
 
 				return;
 			}
-			
+
 			strncpy(tmplabel->data, tmpistream->data, strlen(tmpistream->data) - 1);
 			tmplabel->data[strlen(tmpistream->data)-1] = '\0';
 
@@ -291,9 +291,9 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			}
 			else
 			{
-				/*							*/
-				/*  		Add new datum to _tail_ of list.	*/
-				/*							*/
+				/*
+				 *	Add new datum to _tail_ of list.
+				 */
 				tmplabel->next = I->labellist.tail;
 				I->labellist.tail->prev = tmplabel;
 				I->labellist.tail = tmplabel;
@@ -307,7 +307,7 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 						"flex-tokenStream.c:flexstreamscan/tmplabel");
 			if (tmplabel == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flex-tokenStream.c:flexstreamscan/tmplabel");
 
@@ -318,7 +318,7 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			tmpistream = tmpistream->prev;
 			if (tmpistream == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Badly formed input stream: \".comm\" without a var name");
 
@@ -332,13 +332,13 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 					"flex-tokenStream.c:flexstreamscan/tmplabel->data");
 			if (tmplabel->data == NULL)
 			{
-//BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen
+				/*	BUG: this should be appending to end of errstr like we do in flexBufferAllocate, and incrementing errlen	*/
 				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flex-tokenStream.c:flexstreamscan/tmplabel->data");
 
 				return;
 			}
-			
+
 			strncpy(tmplabel->data, tmpistream->data, strlen(tmpistream->data));
 
 			/*	We went one step back. Step forward again	*/
@@ -356,9 +356,9 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			}
 			else
 			{
-				/*							*/
-				/*  		Add new datum to _tail_ of list.	*/
-				/*							*/
+				/*
+				 *	Add new datum to _tail_ of list.
+				 */
 				tmplabel->next = I->labellist.tail;
 				I->labellist.tail->prev = tmplabel;
 				I->labellist.tail = tmplabel;
@@ -366,7 +366,7 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 		}
 		tmpistream = tmpistream->next;
 	}
-	
+
 	/*	We screwed up istream.head, so reset it :	*/
 	I->istream.head = I->istream.masthead;
 
@@ -378,13 +378,13 @@ flexStreamCheck(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I,
 {
 	int	tripchars = 0, done = 0;
 	Datum	*tmp = I->istream.head;
-	
+
 
 	if (tmp != NULL && tmp->data != NULL)
 	{
 		flexPrint(E, M, P, "\tline %5d, token %3d\t", tmp->linenum, tmp->colnum);
 	}
-	
+
 	while (tmp != NULL)
 	{
 		if (maxtokens > 0 && (done++ > maxtokens))
@@ -407,11 +407,11 @@ flexStreamCheck(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I,
 		else
 		{
 			flexPrint(E, M, P, "'%s%s%s' ", (tmp->quoted ? "\"" : ""), tmp->data, (tmp->quoted ? "\"" : ""));
-			
-			/*						*/
-			/*	Account for the output string and the	*/
-			/*	two guarding "'" quotes.		*/
-			/*						*/
+
+			/*
+			 *	Account for the output string and the
+			 *	two guarding "'" quotes.
+			 */
 			tripchars += strlen(tmp->data) + 2;
 
 			if (tripchars >= fmtchars)

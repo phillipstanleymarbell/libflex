@@ -1,39 +1,39 @@
 /*
-	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
- 
-	All rights reserved.
-
-	Redistribution and use in source and binary forms, with or without 
-	modification, are permitted provided that the following conditions
-	are met:
-
-	*	Redistributions of source code must retain the above
-		copyright notice, this list of conditions and the following
-		disclaimer.
-
-	*	Redistributions in binary form must reproduce the above
-		copyright notice, this list of conditions and the following
-		disclaimer in the documentation and/or other materials
-		provided with the distribution.
-
-	*	Neither the name of the author nor the names of its
-		contributors may be used to endorse or promote products
-		derived from this software without specific prior written 
-		permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	POSSIBILITY OF SUCH DAMAGE.
-*/
+ *	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
+ *
+ *	All rights reserved.
+ *
+ *	Redistribution and use in source and binary forms, with or without
+ *	modification, are permitted provided that the following conditions
+ *	are met:
+ *
+ *	*	Redistributions of source code must retain the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer.
+ *
+ *	*	Redistributions in binary form must reproduce the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer in the documentation and/or other materials
+ *		provided with the distribution.
+ *
+ *	*	Neither the name of the author nor the names of its
+ *		contributors may be used to endorse or promote products
+ *		derived from this software without specific prior written
+ *		permission.
+ *
+ *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *	POSSIBILITY OF SUCH DAMAGE.
+ */
 
 enum
 {
@@ -94,7 +94,7 @@ enum
 
 #define	USED(x)		(void)(x)
 
-/*      WIN32 compiler doesn't always know 'inline', and already has min/max */
+/*	WIN32 compiler doesn't always know 'inline', and already has min/max	*/
 #ifdef  _WIN32_WINNT
 #	define  flexinline
 #else
@@ -108,10 +108,10 @@ typedef struct
 	char 		*data;
 //obsolete... (delete after sflr migration to use flexlib (might be used there)	long		value;
 	int		quoted;
-	
+
 	int		linenum;
 	int		colnum;
-	
+
 	void		*next;
 	void		*prev;
 } Datum;
@@ -133,9 +133,9 @@ typedef struct
 	FlexLock	lock;
 } Labels;
 
-/*									*/
-/*		Flexp: flexible/buffering print routines		*/
-/*									*/
+/*
+ *	Flexp: flexible/buffering print routines
+ */
 enum
 {
 	kFlexCircularBufferSize	= 65536*1024,
@@ -151,18 +151,20 @@ enum
 
 typedef struct
 {
-	int		silent;		/*   Flag to elide all action	*/
+	int		silent;		/*	Flag to elide all action	*/
 
-	char		*circbuf;	/*   String circular buffer	*/
-	int		size;		/*   Allocated size of buffer	*/
-	int		h2o;		/*   Fill level of circ buf	*/
+	char		*circbuf;	/*	String circular buffer	*/
+	int		size;		/*	Allocated size of buffer	*/
+	int		h2o;		/*	Fill level of circ buf	*/
 
-	int		fd;		/*   For output to files, fd	*/
-	int		off;		/*   Likewise, file offset	*/
+	int		fd;		/*	For output to files, fd	*/
+	int		off;		/*	Likewise, file offset	*/
 
 
-//TODO: this has been factored out into the FlexErrState structure. Update flexMalloc.c and flex-tokenStream.c which is
-//where it is used
+	/*
+	 *	TODO: this has been factored out into the FlexErrState structure. Update flexMalloc.c and flex-tokenStream.c which is
+	 *	where it is used
+	 */
 //	/*	Called routines set or clear (i.e., [0]='\0') this:	*/
 //	char		errstr[kFlexErrorStringLength];
 
@@ -178,12 +180,12 @@ typedef struct
 } FlexPrint;
 
 
-/*									*/
-/*	This structure is passed in to all FlexLib functions, having	*/
-/*	previously being initialized. The callee sets the errlen	*/
-/*	upon an error, filling errstr with the selfsame number of	*/
-/*	chars (including terminating NUL)				*/
-/*									*/
+/*
+ *	This structure is passed in to all FlexLib functions, having
+ *	previously being initialized. The callee sets the errlen
+ *	upon an error, filling errstr with the selfsame number of
+ *	chars (including terminating NUL)
+ */
 typedef struct
 {
 	char		errstr[kFlexErrorStringLength];
@@ -193,9 +195,9 @@ typedef struct
 } FlexErrState;
 
 
-/*									*/
-/*		Flexm:	flexible/monitoring allocator 			*/
-/*									*/
+/*
+ *	Flexm:	flexible/monitoring allocator
+ */
 enum
 {
 	kFlexMaxIdentifierStringLength	= 64,
@@ -216,10 +218,10 @@ typedef struct
 	FlexLock	lock;
 } FlexMblock;
 
-/*									*/
-/*	This structure contains all the state needed by the FlexM	*/
-/*	routines.							*/
-/*									*/
+/*
+ *	This structure contains all the state needed by the FlexM
+ *	routines.
+ */
 typedef struct
 {
 	FlexMblock	memblocks[kFlexMaxAllocationBlocks];
@@ -240,7 +242,7 @@ typedef struct
 	FlexLock	lock;
 } FlexIstream;
 
-//TODO: whereever these are used, e.g. in fn call args, check use type FlexFileMode, not int
+/*	TODO: whereever these are used, e.g. in fn call args, check use type FlexFileMode, not int	*/
 typedef enum
 {
 	kFlexFileModeTruncate	= 1 << 0,
@@ -249,65 +251,66 @@ typedef enum
 } FlexFileMode;
 
 /*
-TODO: april 2011: we should be able to replace uses of all three of the following
-with GenericListItem which we already use in some places
-
-typedef struct RealListItem RealListItem;
-struct RealListItem
-{
-	real			value;
-	RealListItem		*next;
-};
-typedef struct
-{
-	RealListItem		*hd;
-	RealListItem		*tl;
-	int			len;
-} RealList;
-
-
-typedef struct IntListItem IntListItem;
-struct IntListItem
-{
-	int			value;
-	IntListItem		*next;
-};
-typedef struct
-{
-	IntListItem		*hd;
-	IntListItem		*tl;
-	int			len;
-} IntList;
-
-
-typedef struct StringListItem StringListItem;
-struct StringListItem
-{
-	char			*value;
-	StringListItem		*next;
-};
-typedef struct
-{
-	StringListItem		*hd;
-	StringListItem		*tl;
-	int			len;
-} StringList;
-*/
+ *	TODO: april 2011: we should be able to replace uses of all three of the following
+ *	with GenericListItem which we already use in some places
+ *
+ *	typedef struct RealListItem RealListItem;
+ *	struct RealListItem
+ *	{
+ *		real			value;
+ *		RealListItem		*next;
+ *	};
+ *	typedef struct
+ *	{
+ *		RealListItem		*hd;
+ *		RealListItem		*tl;
+ *		int			len;
+ *	} RealList;
+ *
+ *
+ *	typedef struct IntListItem IntListItem;
+ *	struct IntListItem
+ *	{
+ *		int			value;
+ *		IntListItem		*next;
+ *	};
+ *	typedef struct
+ *	{
+ *		IntListItem		*hd;
+ *		IntListItem		*tl;
+ *		int			len;
+ *	} IntList;
+ *
+ *
+ *	typedef struct StringListItem StringListItem;
+ *	struct StringListItem
+ *	{
+ *		char			*value;
+ *		StringListItem		*next;
+ *	};
+ *	typedef struct
+ *	{
+ *		StringListItem		*hd;
+ *		StringListItem		*tl;
+ *		int			len;
+ *	} StringList;
+ */
 
 /*
-TODO: april 2011: remove these pre-determined GenericTypes, and leave it
-	up to the user of flexlib to define their own element types
-typedef enum
-{
-	GenericInteger,
-	GenericReal,
-	GenericString,
-} GenericType;
-*/
+ *	TODO: april 2011: remove these pre-determined GenericTypes, and leave it
+ *		up to the user of flexlib to define their own element types
+ *	typedef enum
+ *	{
+ *		GenericInteger,
+ *		GenericReal,
+ *		GenericString,
+ *	} GenericType;
+ */
 
-//TODO: rename this to FlexListItem, FlexList, FlexTupleListItem, and FlexTupleList.
-//		We currently use GenericList and TupleList in salsvm implementation and in Noisy
-//
+/*
+ *	TODO: rename this to FlexListItem, FlexList, FlexTupleListItem, and FlexTupleList.
+ *			We currently use GenericList and TupleList in salsvm implementation and in Noisy
+ */
 typedef struct GenericListItem GenericListItem;
 struct GenericListItem
 {
@@ -338,7 +341,7 @@ typedef struct
 } TupleList;
 
 
-//TODO/BUG Until we actually rename structures, introduce aliases:
+/*	TODO/BUG Until we actually rename structures, introduce aliases:	*/
 typedef GenericListItem		FlexListItem;
 typedef GenericList		FlexList;
 typedef TupleListItem		FlexTupleListItem;
@@ -346,11 +349,11 @@ typedef TupleList		FlexTupleList;
 
 
 
-/*									*/
-/*	NOTE: the Flexm routines use the Flexp routines for printing.	*/
-/*	The Flexp (and thus the Flexm) routines will default to 	*/
-/*	printing stdout if a NULL FlexPrintBuf is supplied.		*/
-/*									*/
+/*
+ *	NOTE: the Flexm routines use the Flexp routines for printing.
+ *	The Flexp (and thus the Flexm) routines will default to
+ *	printing stdout if a NULL FlexPrintBuf is supplied.
+ */
 void*	flexMalloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int size, char *id);
 void*	flexCalloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int nelem, int size, char *id);
 void*	flexRealloc		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *oldptr, int size, char *id);
@@ -377,9 +380,9 @@ int	flexChangeDirectory		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char 
 char*	flexGetWorkingDirectory		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P);
 void	flexPrint		(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, const char *fmt, ...);
 
-/*									*/
-/*	Simple routines that do not need error and print buffers.	*/
-/*									*/
+/*
+ *	Simple routines that do not need error and print buffers.
+ */
 void	flexlock		(FlexLock *l);
 void	flexunlock		(FlexLock *l);
 int	flexSnprint		(char *dst, int size, const char *fmt, ...);
