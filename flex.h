@@ -162,8 +162,10 @@ typedef struct
 
 
 	/*
-	 *	TODO: this has been factored out into the FlexErrState structure. Update flexMalloc.c and flex-tokenStream.c which is
+	 *	TODO: this has been factored out into the FlexErrState structure. Update flex-memoryAllocation.c and flex-tokenStream.c which is
 	 *	where it is used
+	 *	This used to say "flexMalloc.c", but that is wrong. The file was
+	 *	renamed to flex-memoryAllocation.c. Name corrected; no code change.
 	 */
 //	/*	Called routines set or clear (i.e., [0]='\0') this:	*/
 //	char		errstr[kFlexErrorStringLength];
