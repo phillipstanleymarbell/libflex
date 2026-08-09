@@ -61,7 +61,7 @@ allocaccounting(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexAddr addr, 
 		return;
 	}
 
-	if (M->nmemblocks == FLEX_MAXALLOCBLOCKS)
+	if (M->nmemblocks == kFlexMaxAllocationBlocks)
 	{
 		flexprint(E, M, P, "%s.\n", Ememblocks);
 		flexmblocksdisplay(E, M, P);
@@ -71,11 +71,11 @@ allocaccounting(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexAddr addr, 
 
 	for (i = 0; i < M->nmemblocks; i++)
 	{
-		if (!strncmp(M->memblocks[i].id, id, FLEX_MAXIDSTRLEN))
+		if (!strncmp(M->memblocks[i].id, id, kFlexMaxIdentifierStringLength))
 		{
 			int	nentries = M->memblocks[i].allocs - M->memblocks[i].frees;
 
-			if (nentries >= FLEX_MAXALLOCS)
+			if (nentries >= kFlexMaxAllocations)
 			{
 				flexprint(E, M, P, "%s.\n", Ememblockaddrs);
 				flexmblocksdisplay(E, M, P);
@@ -90,11 +90,11 @@ allocaccounting(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexAddr addr, 
 		}
 	}
 
-	strncpy(M->memblocks[i].id, id, FLEX_MAXIDSTRLEN);
+	strncpy(M->memblocks[i].id, id, kFlexMaxIdentifierStringLength);
 
 	if (!M->memblocks[i].mallocd)
 	{
-		M->memblocks[i].addrs = (FlexAddr *)calloc(FLEX_MAXALLOCS, sizeof(FlexAddr));
+		M->memblocks[i].addrs = (FlexAddr *)calloc(kFlexMaxAllocations, sizeof(FlexAddr));
 		if (M->memblocks[i].addrs == NULL)
 		{
 			flexprint(E, M, P, "%s.\n", Emallocaddrs);
@@ -134,7 +134,7 @@ reallocaccounting(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexAddr addr
 	{
 		int	nentries = M->memblocks[i].allocs - M->memblocks[i].frees;
 
-		if (!strncmp(M->memblocks[i].id, id, FLEX_MAXIDSTRLEN))
+		if (!strncmp(M->memblocks[i].id, id, kFlexMaxIdentifierStringLength))
 		{
 			M->memblocks[i].addrs[nentries] = addr;
 			M->memblocks[i].reallocs++;
@@ -237,7 +237,7 @@ flexfree(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, void *ptr, char *id)
 	if (P != NULL)
 	{
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-		snprintf(E->errstr, FLEX_ERRSTRLEN, "%s", Ebadfree);
+		snprintf(E->errstr, kFlexErrorStringLength, "%s", Ebadfree);
 	}
 	else
 	{
@@ -254,7 +254,7 @@ flexmblocksdisplay(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P)
 	int	i;
 
 	flexprint(E, M, P, "\nMonitored memory allocation statistics (a:allocs, f:frees, r:reallocs):\n\n");
-	for (i = 0; i < FLEX_MAXALLOCBLOCKS; i++)
+	for (i = 0; i < kFlexMaxAllocationBlocks; i++)
 	{
 		if (!M->memblocks[i].valid)
 		{

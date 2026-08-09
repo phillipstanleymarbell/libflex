@@ -186,19 +186,19 @@ int
 flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
 {
 	int	mode = 0;
-	int	rw = omode & (~FLEX_OTRUNCATE);
+	int	rw = omode & (~kFlexFileModeTruncate);
 	int	fd;
 
-	if (rw == FLEX_OREAD)
+	if (rw == kFlexFileModeRead)
 		mode = OREAD;
 	
-	if (rw == FLEX_OWRITE)
+	if (rw == kFlexFileModeWrite)
 		mode = OWRITE;
 
-	if (rw == (FLEX_OREAD|FLEX_OWRITE))
+	if (rw == (kFlexFileModeRead|kFlexFileModeWrite))
 		mode = ORDWR;
 
-	if (omode & FLEX_OTRUNCATE)
+	if (omode & kFlexFileModeTruncate)
 		mode |= OTRUNC;
 
 
@@ -212,16 +212,16 @@ int
 flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int omode)
 {
 	int	mode = 0;
-	int	rw = omode & (~FLEX_OTRUNCATE);
+	int	rw = omode & (~kFlexFileModeTruncate);
 
 
-	if (rw == FLEX_OREAD)
+	if (rw == kFlexFileModeRead)
 		mode = OREAD;
-	if (rw == FLEX_OWRITE)
+	if (rw == kFlexFileModeWrite)
 		mode = OWRITE;
-	if (rw == (FLEX_OREAD|FLEX_OWRITE))
+	if (rw == (kFlexFileModeRead|kFlexFileModeWrite))
 		mode = ORDWR;
-	if (mode & FLEX_OTRUNCATE)
+	if (mode & kFlexFileModeTruncate)
 		mode |= OTRUNC;
 	
 
@@ -284,9 +284,9 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 	{
 		if (E != NULL)
 		{
-			char	tmperr[FLEX_ERRSTRLEN];
+			char	tmperr[kFlexErrorStringLength];
 
-			snprintf(tmperr, FLEX_ERRSTRLEN, " -> %s", Emalloc);
+			snprintf(tmperr, kFlexErrorStringLength, " -> %s", Emalloc);
 			strncat(E->errstr, tmperr, sizeof(E->errstr) - strlen(E->errstr) - 1);
 			E->errlen = strlen(E->errstr);
 		}
@@ -302,9 +302,9 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 		{
 			if (E != NULL)
 			{
-				char	tmperr[FLEX_ERRSTRLEN];
+				char	tmperr[kFlexErrorStringLength];
 
-				snprintf(tmperr, FLEX_ERRSTRLEN, " -> %s", Emalloc);
+				snprintf(tmperr, kFlexErrorStringLength, " -> %s", Emalloc);
 				strncat(E->errstr, tmperr, sizeof(E->errstr) - strlen(E->errstr) - 1);
 				E->errlen = strlen(E->errstr);
 			}
@@ -321,9 +321,9 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 		{
 			if (E != NULL)
 			{
-				char	tmperr[FLEX_ERRSTRLEN];
+				char	tmperr[kFlexErrorStringLength];
 
-				snprintf(tmperr, FLEX_ERRSTRLEN, " -> %s", Emalloc);
+				snprintf(tmperr, kFlexErrorStringLength, " -> %s", Emalloc);
 				strncat(E->errstr, tmperr, sizeof(E->errstr) - strlen(E->errstr) - 1);
 				E->errlen = strlen(E->errstr);
 			}
@@ -374,7 +374,7 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	/*								*/
 	/*	If failing due to memory, further prints go to stderr	*/
 	/*								*/
-	buf = flexcalloc(M, NULL, 1, FLEX_CIRCBUFSZ, "flex-Inferno.c:flexprint/buf");
+	buf = flexcalloc(M, NULL, 1, kFlexCircularBufferSize, "flex-Inferno.c:flexprint/buf");
 	if (buf == NULL)
 	{
 		fprint(2, "Could not allocate memory for (char *)buf in flex-darwin.c/flexprint.\n");
@@ -383,10 +383,10 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	}
 
 	va_start(arg, fmt);
-	end = vseprint(buf, buf+FLEX_CIRCBUFSZ, fmt, arg);
+	end = vseprint(buf, buf+kFlexCircularBufferSize, fmt, arg);
 	va_end(arg);
  
-	if (end == NULL || end < buf || end > buf+FLEX_CIRCBUFSZ)
+	if (end == NULL || end < buf || end > buf+kFlexCircularBufferSize)
 	{
 		fprint(t, "vseprint() in flexprint() failed.\n");
 		flexfree(M, NULL, buf, "flex-Inferno.c:flexprint/buf");
@@ -407,7 +407,7 @@ TODO: (also in other archs: if the write failed, append message to E->errstr)
 	}
 	else
 	{
-		checkh2o(FLEX_CIRCBUFSZ, P, buf);
+		checkh2o(kFlexCircularBufferSize, P, buf);
 	}
 
 	flexfree(M, NULL, buf, "flex-Inferno.c:flexprint/buf");

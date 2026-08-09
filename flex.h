@@ -37,7 +37,7 @@
 
 enum
 {
-	FLEX_ERRSTRLEN		= 128
+	kFlexErrorStringLength		= 128
 };
 
 #ifdef INFERNO
@@ -138,7 +138,7 @@ typedef struct
 /*									*/
 enum
 {
-	FLEX_CIRCBUFSZ	= 65536*1024,
+	kFlexCircularBufferSize	= 65536*1024,
 };
 
 //obsolete	typedef enum
@@ -164,7 +164,7 @@ typedef struct
 //TODO: this has been factored out into the FlexErrState structure. Update flexmalloc.c and flextoken.c which is
 //where it is used
 //	/*	Called routines set or clear (i.e., [0]='\0') this:	*/
-//	char		errstr[FLEX_ERRSTRLEN];
+//	char		errstr[kFlexErrorStringLength];
 
 	FlexLock	lock;
 } FlexPrintBuf;
@@ -186,7 +186,7 @@ typedef struct
 /*									*/
 typedef struct
 {
-	char		errstr[FLEX_ERRSTRLEN];
+	char		errstr[kFlexErrorStringLength];
 
 	/*	Length of the current error	*/
 	int		errlen;
@@ -198,14 +198,14 @@ typedef struct
 /*									*/
 enum
 {
-	FLEX_MAXIDSTRLEN	= 64,
-	FLEX_MAXALLOCBLOCKS	= 64,
-	FLEX_MAXALLOCS		= 131072,
+	kFlexMaxIdentifierStringLength	= 64,
+	kFlexMaxAllocationBlocks	= 64,
+	kFlexMaxAllocations		= 131072,
 };
 
 typedef struct
 {
-	char		id[FLEX_MAXIDSTRLEN];
+	char		id[kFlexMaxIdentifierStringLength];
 	uvlong		*addrs;
 	int		valid;
 	int		allocs;
@@ -222,7 +222,7 @@ typedef struct
 /*									*/
 typedef struct
 {
-	FlexMblock	memblocks[FLEX_MAXALLOCBLOCKS];
+	FlexMblock	memblocks[kFlexMaxAllocationBlocks];
 	int		nmemblocks;
 
 	/*	Enable alloc accounting:	*/
@@ -243,9 +243,9 @@ typedef struct
 //TODO: whereever these are used, e.g. in fn call args, check use type FlexFileMode, not int
 typedef enum
 {
-	FLEX_OTRUNCATE	= 1 << 0,
-	FLEX_OREAD	= 1 << 1,
-	FLEX_OWRITE	= 1 << 2,
+	kFlexFileModeTruncate	= 1 << 0,
+	kFlexFileModeRead	= 1 << 1,
+	kFlexFileModeWrite	= 1 << 2,
 } FlexFileMode;
 
 /*

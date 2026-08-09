@@ -77,7 +77,7 @@ flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			if (t1 == NULL)
 			{
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN, "Could not allocate memory for Datum *t1");
+				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for Datum *t1");
 
 				return;
 			}
@@ -94,7 +94,7 @@ flexstreammunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 				flexfree(E, M, P, t1, "flextoken.c:flexstreammunch/t1");
 
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN, "Could not allocate memory for char *t1->data");
+				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for char *t1->data");
 
 				return;
 			}
@@ -256,7 +256,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			if (tmplabel == NULL)
 			{
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN,
+				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flextoken.c:flexstreamscan/tmplabel");
 
 				return;
@@ -271,7 +271,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 				flexfree(E, M, P, tmplabel, "flextoken.c:flexstreamscan/tmplabel");
 
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN, "Could not allocate memory for char *tmplabel->data, main.c");
+				snprintf(E->errstr, kFlexErrorStringLength, "Could not allocate memory for char *tmplabel->data, main.c");
 
 				return;
 			}
@@ -308,7 +308,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			if (tmplabel == NULL)
 			{
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN,
+				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flextoken.c:flexstreamscan/tmplabel");
 
 				return;
@@ -319,7 +319,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			if (tmpistream == NULL)
 			{
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN,
+				snprintf(E->errstr, kFlexErrorStringLength,
 					"Badly formed input stream: \".comm\" without a var name");
 
 				return;
@@ -333,7 +333,7 @@ flexstreamscan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 			if (tmplabel->data == NULL)
 			{
 //BUG: this should be appending to end of errstr like we do in flexbufalloc, and incrementing errlen
-				snprintf(E->errstr, FLEX_ERRSTRLEN,
+				snprintf(E->errstr, kFlexErrorStringLength,
 					"Could not allocate memory for flextoken.c:flexstreamscan/tmplabel->data");
 
 				return;
