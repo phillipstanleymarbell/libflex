@@ -100,7 +100,7 @@ flexStreamMunch(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *S,
 			}
 			tptr = t1->data;
 
-			/* 	Throw away all chars till we see a non-sepchar 	*/
+			/*	Throw away all chars till we see a non-sepchar	*/
 			while (issepchar(sepchars, buf[eaten]) && (eaten < strlen(buf)))
 			{
 				eaten++;
@@ -248,7 +248,7 @@ flexStreamScan(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexIstream *I)
 
 	while (tmpistream != NULL)
 	{
-		/* 	If it is new a label, add it to labellist 		*/
+		/*	If it is new a label, add it to labellist	*/
 		if (tmpistream->data[strlen(tmpistream->data)-1] == ':')
 		{
 			Datum*	tmplabel = (Datum *) flexMalloc(E, M, P, sizeof(Datum),
