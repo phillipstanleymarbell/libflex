@@ -43,12 +43,12 @@
 #include "flexerror.h"
 #include "flex.h"
 
-static flexinline void		allocaccounting(FlexErrState *, FlexMstate *, FlexPrintBuf *, FlexAddr addr, char *id);
+static flexinline void		flexAllocationAccounting(FlexErrState *, FlexMstate *, FlexPrintBuf *, FlexAddr addr, char *id);
 static flexinline void		reallocaccounting(FlexErrState *, FlexMstate *, FlexPrintBuf *, FlexAddr addr, void *oldaddr, char *id);
 
 
 flexinline void
-allocaccounting(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexAddr addr, char *id)
+flexAllocationAccounting(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexAddr addr, char *id)
 {
 	int	i;
 
@@ -160,7 +160,7 @@ flexMalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int size, char *id)
 	FlexAddr addr = (FlexAddr)malloc(size);
 	if (M->debug)
 	{
-		allocaccounting(E, M, P, addr, id);
+		flexAllocationAccounting(E, M, P, addr, id);
 	}
 
 	return (void *)addr;
@@ -172,7 +172,7 @@ flexCalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int nelem, int size,
 	FlexAddr addr = (FlexAddr)calloc(nelem, size);
 	if (M->debug)
 	{
-		allocaccounting(E, M, P, addr, id);
+		flexAllocationAccounting(E, M, P, addr, id);
 	}
 
 	return (void *)addr;
