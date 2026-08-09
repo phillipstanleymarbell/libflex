@@ -16,12 +16,12 @@
 		323ED4A91397C778007DA43C /* libflex_cocoatouchTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 323ED4A81397C778007DA43C /* libflex_cocoatouchTests.h */; };
 		323ED4AB1397C778007DA43C /* libflex_cocoatouchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4AA1397C778007DA43C /* libflex_cocoatouchTests.m */; };
 		323ED4BE1397C7AB007DA43C /* flex.h in Headers */ = {isa = PBXBuildFile; fileRef = 323ED4B71397C7AB007DA43C /* flex.h */; };
-		323ED4BF1397C7AB007DA43C /* flexmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4B81397C7AB007DA43C /* flexmalloc.c */; };
-		323ED4C01397C7AB007DA43C /* flextoken.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4B91397C7AB007DA43C /* flextoken.c */; };
+		323ED4BF1397C7AB007DA43C /* flex-memoryAllocation.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4B81397C7AB007DA43C /* flex-memoryAllocation.c */; };
+		323ED4C01397C7AB007DA43C /* flex-tokenStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4B91397C7AB007DA43C /* flex-tokenStream.c */; };
 		323ED4C11397C7AB007DA43C /* flex-darwin.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4BA1397C7AB007DA43C /* flex-darwin.c */; };
-		323ED4C21397C7AB007DA43C /* flexerror.h in Headers */ = {isa = PBXBuildFile; fileRef = 323ED4BB1397C7AB007DA43C /* flexerror.h */; };
-		323ED4C31397C7AB007DA43C /* flextypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 323ED4BC1397C7AB007DA43C /* flextypes.h */; };
-		323ED4C41397C7AB007DA43C /* flexlist.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4BD1397C7AB007DA43C /* flexlist.c */; };
+		323ED4C21397C7AB007DA43C /* flex-error.h in Headers */ = {isa = PBXBuildFile; fileRef = 323ED4BB1397C7AB007DA43C /* flex-error.h */; };
+		323ED4C31397C7AB007DA43C /* flex-types.h in Headers */ = {isa = PBXBuildFile; fileRef = 323ED4BC1397C7AB007DA43C /* flex-types.h */; };
+		323ED4C41397C7AB007DA43C /* flex-list.c in Sources */ = {isa = PBXBuildFile; fileRef = 323ED4BD1397C7AB007DA43C /* flex-list.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,12 +47,12 @@
 		323ED4A81397C778007DA43C /* libflex_cocoatouchTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libflex_cocoatouchTests.h; sourceTree = "<group>"; };
 		323ED4AA1397C778007DA43C /* libflex_cocoatouchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libflex_cocoatouchTests.m; sourceTree = "<group>"; };
 		323ED4B71397C7AB007DA43C /* flex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flex.h; path = ../../flex.h; sourceTree = "<group>"; };
-		323ED4B81397C7AB007DA43C /* flexmalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = flexmalloc.c; path = ../../flexmalloc.c; sourceTree = "<group>"; };
-		323ED4B91397C7AB007DA43C /* flextoken.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = flextoken.c; path = ../../flextoken.c; sourceTree = "<group>"; };
+		323ED4B81397C7AB007DA43C /* flex-memoryAllocation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = flex-memoryAllocation.c; path = ../../flexmalloc.c; sourceTree = "<group>"; };
+		323ED4B91397C7AB007DA43C /* flex-tokenStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = flex-tokenStream.c; path = ../../flextoken.c; sourceTree = "<group>"; };
 		323ED4BA1397C7AB007DA43C /* flex-darwin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "flex-darwin.c"; path = "../../flex-darwin.c"; sourceTree = "<group>"; };
-		323ED4BB1397C7AB007DA43C /* flexerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flexerror.h; path = ../../flexerror.h; sourceTree = "<group>"; };
-		323ED4BC1397C7AB007DA43C /* flextypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flextypes.h; path = ../../flextypes.h; sourceTree = "<group>"; };
-		323ED4BD1397C7AB007DA43C /* flexlist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = flexlist.c; path = ../../flexlist.c; sourceTree = "<group>"; };
+		323ED4BB1397C7AB007DA43C /* flex-error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flex-error.h; path = ../../flexerror.h; sourceTree = "<group>"; };
+		323ED4BC1397C7AB007DA43C /* flex-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = flex-types.h; path = ../../flextypes.h; sourceTree = "<group>"; };
+		323ED4BD1397C7AB007DA43C /* flex-list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = flex-list.c; path = ../../flexlist.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,12 +82,12 @@
 			isa = PBXGroup;
 			children = (
 				323ED4B71397C7AB007DA43C /* flex.h */,
-				323ED4B81397C7AB007DA43C /* flexmalloc.c */,
-				323ED4B91397C7AB007DA43C /* flextoken.c */,
+				323ED4B81397C7AB007DA43C /* flex-memoryAllocation.c */,
+				323ED4B91397C7AB007DA43C /* flex-tokenStream.c */,
 				323ED4BA1397C7AB007DA43C /* flex-darwin.c */,
-				323ED4BB1397C7AB007DA43C /* flexerror.h */,
-				323ED4BC1397C7AB007DA43C /* flextypes.h */,
-				323ED4BD1397C7AB007DA43C /* flexlist.c */,
+				323ED4BB1397C7AB007DA43C /* flex-error.h */,
+				323ED4BC1397C7AB007DA43C /* flex-types.h */,
+				323ED4BD1397C7AB007DA43C /* flex-list.c */,
 				323ED4901397C778007DA43C /* libflex-cocoatouch */,
 				323ED4A11397C778007DA43C /* libflex-cocoatouchTests */,
 				323ED48D1397C778007DA43C /* Frameworks */,
@@ -158,8 +158,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				323ED4BE1397C7AB007DA43C /* flex.h in Headers */,
-				323ED4C21397C7AB007DA43C /* flexerror.h in Headers */,
-				323ED4C31397C7AB007DA43C /* flextypes.h in Headers */,
+				323ED4C21397C7AB007DA43C /* flex-error.h in Headers */,
+				323ED4C31397C7AB007DA43C /* flex-types.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +261,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				323ED4BF1397C7AB007DA43C /* flexmalloc.c in Sources */,
-				323ED4C01397C7AB007DA43C /* flextoken.c in Sources */,
+				323ED4BF1397C7AB007DA43C /* flex-memoryAllocation.c in Sources */,
+				323ED4C01397C7AB007DA43C /* flex-tokenStream.c in Sources */,
 				323ED4C11397C7AB007DA43C /* flex-darwin.c in Sources */,
-				323ED4C41397C7AB007DA43C /* flexlist.c in Sources */,
+				323ED4C41397C7AB007DA43C /* flex-list.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

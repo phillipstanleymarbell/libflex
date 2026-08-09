@@ -1,4 +1,4 @@
-//TODO: bring this in line with stdint uint8_t etc.
+/*	TODO: bring this in line with stdint uint8_t etc.	*/
 
 //typedef	char			bool;
 typedef	unsigned char		uchar;

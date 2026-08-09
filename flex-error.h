@@ -1,4 +1,4 @@
-//TODO: per language,
+/*	TODO: per language,	*/
 
 static const char Ebadfree[]		=	"attempt to free an unallocated block";
 static const char Emallocfor[]		=	"malloc/calloc failed for";

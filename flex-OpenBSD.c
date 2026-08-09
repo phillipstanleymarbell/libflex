@@ -1,39 +1,39 @@
 /*
-	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
- 
-	All rights reserved.
-
-	Redistribution and use in source and binary forms, with or without 
-	modification, are permitted provided that the following conditions
-	are met:
-
-	*	Redistributions of source code must retain the above
-		copyright notice, this list of conditions and the following
-		disclaimer.
-
-	*	Redistributions in binary form must reproduce the above
-		copyright notice, this list of conditions and the following
-		disclaimer in the documentation and/or other materials
-		provided with the distribution.
-
-	*	Neither the name of the author nor the names of its
-		contributors may be used to endorse or promote products
-		derived from this software without specific prior written 
-		permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	POSSIBILITY OF SUCH DAMAGE.
-*/
+ *	Copyright (c) 1999-2011, Phillip Stanley-Marbell (author)
+ *
+ *	All rights reserved.
+ *
+ *	Redistribution and use in source and binary forms, with or without
+ *	modification, are permitted provided that the following conditions
+ *	are met:
+ *
+ *	*	Redistributions of source code must retain the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer.
+ *
+ *	*	Redistributions in binary form must reproduce the above
+ *		copyright notice, this list of conditions and the following
+ *		disclaimer in the documentation and/or other materials
+ *		provided with the distribution.
+ *
+ *	*	Neither the name of the author nor the names of its
+ *		contributors may be used to endorse or promote products
+ *		derived from this software without specific prior written
+ *		permission.
+ *
+ *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ *	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ *	POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -44,7 +44,7 @@
 #include <sys/resource.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "flextypes.h"
+#include "flex-types.h"
 #include "flex.h"
 
 static flexinline void		checkh2o(int maxbufsz, FlexPrintBuf *P, char *buf);
@@ -60,7 +60,7 @@ checkh2o(int maxbufsz, FlexPrintBuf *P, char *buf)
 	{
 		n = maxbufsz;
 	}
-	
+
 	ndelete = P->h2o - (maxbufsz - n);
 	if (ndelete < 0)
 	{
@@ -83,7 +83,7 @@ checkh2o(int maxbufsz, FlexPrintBuf *P, char *buf)
 }
 
 int
-flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	struct stat	sb;
 
@@ -106,7 +106,7 @@ flexunlock(FlexLock *l)
 }
 
 int
-flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexFileSize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	struct stat sb;
 
@@ -119,11 +119,11 @@ flexfsize(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 }
 
 char *
-flexfgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd)
+flexFgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, int fd)
 {
 	int 	n, i = 0;
 	char	ch;
-	
+
 	if (len <= 0)
 	{
 		return NULL;
@@ -144,12 +144,12 @@ flexfgets(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *buf, int len, i
 	} while ((i < len) && (ch != '\n'));
 	buf[i] = '\0';
 
-	
+
 	return buf;
 }
 
 int
-flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
+flexCreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 {
 	int	perm = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP;
 	int	flags = 0;
@@ -159,7 +159,7 @@ flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode
 
 	if (rw == M_OREAD)
 		flags = O_RDONLY;
-	
+
 	if (rw == M_OWRITE)
 		flags = O_WRONLY;
 
@@ -177,7 +177,7 @@ flexcreate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode
 }
 
 int
-flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
+flexOpen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 {
 	int	perm = S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP;
 	int	flags = 0;
@@ -186,7 +186,7 @@ flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 
 	if (rw == M_OREAD)
 		flags = O_RDONLY;
-	
+
 	if (rw == M_OWRITE)
 		flags = O_WRONLY;
 
@@ -202,42 +202,42 @@ flexopen(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path, int mode)
 }
 
 int
-flexread(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
+flexRead(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
 {
 	return read(fd, buf, len);
 }
 
 int
-flexclose(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
+flexClose(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd)
 {
 	return close(fd);
 }
 
 int
-flexwrite(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
+flexWrite(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int fd, char* buf, int len)
 {
 	return write(fd, buf, len);
 }
 
 int
-flexchdir(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path)
+flexChangeDirectory(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *path)
 {
 	return chdir(path);
 }
 
 char *
-flexgetpwd(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, )
+flexGetWorkingDirectory(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, )
 {
-	/*								*/
-	/*	This is non-POSIX, but...				*/
-	/*	On OpenBSD, let getcwd() auto-allocate space for buf	*/
-	/*	The buffer will be freed by caller, e.g., sf.y.		*/
-	/*								*/
+	/*
+	 *	This is non-POSIX, but...
+	 *	On OpenBSD, let getcwd() auto-allocate space for buf
+	 *	The buffer will be freed by caller, e.g., sf.y.
+	 */
 	return getcwd(NULL, 0);
 }
 
 int
-flexsnprint(char *dst, int size, char *fmt, ...)
+flexSnprint(char *dst, int size, char *fmt, ...)
 {
 	va_list		arg;
 	int		n;
@@ -250,20 +250,20 @@ flexsnprint(char *dst, int size, char *fmt, ...)
 }
 
 FlexPrintBuf*
-flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode)
+flexBufferAllocate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, char *filename, FlexFileMode mode)
 {
 	FlexPrintBuf	*tmpflexbuf;
 
 
-	tmpflexbuf = (FlexPrintBuf *)flexcalloc(E, M, P, 1, sizeof(FlexPrintBuf),
+	tmpflexbuf = (FlexPrintBuf *)flexCalloc(E, M, P, 1, sizeof(FlexPrintBuf),
 					"FlexPrintBuf* in flex-darwin.c/flexbufalloc");
 	if (tmpflexbuf == NULL)
 	{
 		if (E != NULL)
 		{
-			char	tmperr[FLEX_ERRSTRLEN];
+			char	tmperr[kFlexErrorStringLength];
 
-			snprintf(tmperr, FLEX_ERRSTRLEN, " -> %s", Emalloc);
+			snprintf(tmperr, kFlexErrorStringLength, " -> %s", Emalloc);
 			strncat(E->errstr, tmperr, sizeof(E->errstr) - strlen(E->errstr) - 1);
 			E->errlen = strlen(E->errstr);
 		}
@@ -273,15 +273,15 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 
 	if (circbufsz > 0)
 	{
-		tmpflexbuf->circbuf = (char *)flexcalloc(E, M, P, 1, circbufsz,
+		tmpflexbuf->circbuf = (char *)flexCalloc(E, M, P, 1, circbufsz,
 						"FlexPrintBuf->char* in flex-darwin.c/flexbufalloc");
 		if (tmpflexbuf->circbuf == NULL)
 		{
 			if (E != NULL)
 			{
-				char	tmperr[FLEX_ERRSTRLEN];
+				char	tmperr[kFlexErrorStringLength];
 
-				snprintf(tmperr, FLEX_ERRSTRLEN, " -> %s", Emalloc);
+				snprintf(tmperr, kFlexErrorStringLength, " -> %s", Emalloc);
 				strncat(E->errstr, tmperr, sizeof(E->errstr) - strlen(E->errstr) - 1);
 				E->errlen = strlen(E->errstr);
 			}
@@ -293,14 +293,14 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 	tmpflexbuf->fd = -1;
 	if (filename != NULL)
 	{
-		tmpflexbuf->fd = flexcreate(E, M, P, filename, mode);
+		tmpflexbuf->fd = flexCreate(E, M, P, filename, mode);
 		if (tmpflexbuf->fd <= 2)
 		{
 			if (E != NULL)
 			{
-				char	tmperr[FLEX_ERRSTRLEN];
+				char	tmperr[kFlexErrorStringLength];
 
-				snprintf(tmperr, FLEX_ERRSTRLEN, " -> %s", Emalloc);
+				snprintf(tmperr, kFlexErrorStringLength, " -> %s", Emalloc);
 				strncat(E->errstr, tmperr, sizeof(E->errstr) - strlen(E->errstr) - 1);
 				E->errlen = strlen(E->errstr);
 			}
@@ -314,7 +314,7 @@ flexbufalloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, int circbufsz, cha
 }
 
 void
-flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund)
+flexBufferDeallocate(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *moribund)
 {
 	if (moribund == NULL)
 	{
@@ -323,12 +323,12 @@ flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *mo
 
 	if (moribund->circbuf != NULL)
 	{
-		flexfree(E, M, P, moribund->circbuf, "flex-darwin.c/flexbufdealloc");
+		flexFree(E, M, P, moribund->circbuf, "flex-darwin.c/flexbufdealloc");
 	}
 
 	if (moribund->fd != -1)
 	{
-		flexclose(E, M, P, moribund->fd);
+		flexClose(E, M, P, moribund->fd);
 	}
 
 
@@ -336,7 +336,7 @@ flexbufdealloc(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, FlexPrintBuf *mo
 }
 
 void
-flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
+flexPrint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 {
 	int	fmtlen;
 	char	*buf;
@@ -348,10 +348,10 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 		return;
 	}
 
-	/*								*/
-	/*	If failing due to memory, further prints go to stderr	*/
-	/*								*/
-	buf = flexcalloc(M, NULL, 1, FLEX_CIRCBUFSZ, "flex-OpenBSD.c:flexprint/buf");
+	/*
+	 *	If failing due to memory, further prints go to stderr
+	 */
+	buf = flexCalloc(M, NULL, 1, kFlexCircularBufferSize, "flex-OpenBSD.c:flexprint/buf");
 	if (buf == NULL)
 	{
 		fprintf(stderr, "Could not allocate memory for (char *)buf in flex-OpenBSD.c/flexprint.\n");
@@ -360,13 +360,13 @@ flexprint(FlexErrState *E, FlexMstate *M, FlexPrintBuf *P, char *fmt, ...)
 	}
 
 	va_start(arg, fmt);
-	fmtlen = vsnprintf(buf, FLEX_CIRCBUFSZ, fmt, arg);
+	fmtlen = vsnprintf(buf, kFlexCircularBufferSize, fmt, arg);
 	va_end(arg);
- 
+
 	if (fmtlen < 0)
 	{
 		fprintf(stderr, "vsnprintf() in flexprint() failed.\n");
-		flexfree(M, NULL, buf, "flex-OpenBSD.c:flexprint/buf");
+		flexFree(M, NULL, buf, "flex-OpenBSD.c:flexprint/buf");
 
 		return;
 	}
@@ -383,25 +383,25 @@ TODO: (also in other archs: if the write failed, append message to E->errstr)
 	}
 	else
 	{
-		checkh2o(FLEX_CIRCBUFSZ, P, buf);
+		checkh2o(kFlexCircularBufferSize, P, buf);
 	}
 
-	flexfree(M, NULL, buf, "flex-OpenBSD.c:flexprint/buf");
+	flexFree(M, NULL, buf, "flex-OpenBSD.c:flexprint/buf");
 
 
 	return;
 }
 
 void
-flexnsleep(ulong nsecs)
+flexNanosleep(ulong nsecs)
 {
-	/*								*/
-	/*	Inferno doesn't provide us with enough granularity.	*/
-	/*	This should still be fairly portable since nanosleep	*/
-	/*	is POSIX.1b.						*/
-	/*								*/
+	/*
+	 *	Inferno doesn't provide us with enough granularity.
+	 *	This should still be fairly portable since nanosleep
+	 *	is POSIX.1b.
+	 */
 	struct timespec rqtp;
-	
+
 	rqtp.tv_sec = nsecs/1000000000;
 	rqtp.tv_nsec = nsecs % 1000000000;
 
@@ -409,7 +409,7 @@ flexnsleep(ulong nsecs)
 }
 
 ulong
-flexusercputimeusecs(void)
+flexUserCpuTimeMicroseconds(void)
 {
 	struct rusage 	r;
 
@@ -419,7 +419,7 @@ flexusercputimeusecs(void)
 }
 
 ulong
-flexcputimeusecs(void)
+flexCpuTimeMicroseconds(void)
 {
 	struct rusage 	r;
 
@@ -430,7 +430,7 @@ flexcputimeusecs(void)
 }
 
 ulong
-flexwallclockusecs(void)
+flexWallClockMicroseconds(void)
 {
 	struct timeval 	t;
 	gettimeofday(&t, NULL);
@@ -446,7 +446,7 @@ flexwallclockusecs(void)
 
 
 
-TODO: replace use of mprintfd with flexprint to a FlexBuf that has its fd set to the open fd...
+TODO: replace use of mprintfd with flexPrint to a FlexBuf that has its fd set to the open fd...
 void
 mprintfd(int fd, char* buf)
 {
@@ -455,7 +455,7 @@ mprintfd(int fd, char* buf)
 	return;
 }
 
-TODO: replace the uses of both merror and mlog to an flexprint to an appropriate FlexPrintBuf, with its printfd set as appropriate
+TODO: replace the uses of both merror and mlog to an flexPrint to an appropriate FlexPrintBuf, with its printfd set as appropriate
 if logging to file is desired.
 void
 merror(Engine *E, char *fmt, ...)
@@ -474,7 +474,7 @@ merror(Engine *E, char *fmt, ...)
 	va_start(arg, fmt);
 	fmtlen = vsnprintf(buf, MAX_MIO_BUFSZ, fmt, arg);
 	va_end(arg);
- 
+
 	if (fmtlen < 0)
 	{
 		fprintf(stderr, "mprint failed.\n");
