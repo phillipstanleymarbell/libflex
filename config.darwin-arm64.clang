@@ -1,0 +1,27 @@
+#
+#	Apple silicon (arm64) native build.
+#
+#	Deliberately does NOT include config.cuda: that file is a 2006 NVIDIA
+#	CUDA SDK build script which sets CC to gcc and pulls in CUDA and
+#	OpenGL variables that no arm64 build here needs.
+#
+#	Unlike config.darwin-x86_64.clang, this emits NATIVE objects rather
+#	than LLVM bitcode. That config exists for whole-program analysis and
+#	sets OBJECTEXTENSION to bc with -emit-llvm, which cannot be linked by
+#	ar/ranlib into an ordinary static library.
+#
+CC			= clang
+CXX			= clang++
+OBJECTEXTENSION		= o
+GAWK			= gawk
+SPLINT			= splint
+LCLINT			= lclint
+LD			= clang
+AR			= /usr/bin/ar
+RANLIB			= /usr/bin/ranlib
+BISON			= bison
+FLEXFLAGS		= -DFLEX64
+PLATFORM_CFLAGS 	= -Wno-gnu-designator
+PLATFORM_LFLAGS 	=
+PLATFORM_OPTFLAGS	= -O2
+PLATFORM_DBGFLAGS	= -g
