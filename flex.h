@@ -35,6 +35,17 @@
  *	POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef LIBFLEX_FLEX_H
+#define LIBFLEX_FLEX_H
+/*
+ *	Include guard added 2026-08-13. These headers had none, which was
+ *	harmless while every consumer included each of them once. Baumol's
+ *	firmware links libsets against a bare-metal target where SCCE's
+ *	`llvm-link --only-needed` forces libsets and its host hooks into ONE
+ *	translation unit to break a dependency cycle, so several .c files that
+ *	each include flex.h land in the same unit. Without a guard that is a
+ *	redefinition of every enumerator and typedef in the file.
+ */
 enum
 {
 	kFlexErrorStringLength		= 128
@@ -393,3 +404,5 @@ ulong	flexUserCpuTimeMicroseconds	(void);
 ulong	flexCpuTimeMicroseconds	(void);
 ulong	flexWallClockMicroseconds	(void);
 ulong	flextimeusecs		(void);
+
+#endif /* LIBFLEX_FLEX_H */
