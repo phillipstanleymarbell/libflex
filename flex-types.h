@@ -32,4 +32,18 @@ typedef	float			real;
 #	error "You must define one of FLEX64/FLEX32/FLEX16/FLEX8"
 #endif
 
+/*
+ *	Pointer-to-FlexAddr conversion, width-correct on every platform.
+ *
+ *	FlexAddr's width is chosen by the FLEX* flavor, not by the target's
+ *	pointer width, so a direct (FlexAddr)p cast is a different-size
+ *	pointer-to-integer conversion wherever the two disagree (e.g., FLEX64
+ *	on a 32-bit target), which gcc warns about. Converting through
+ *	uintptr_t (a freestanding <stdint.h> type) makes the widening or
+ *	narrowing explicit and warning-free. Use this macro at every site
+ *	that renders a pointer as a FlexAddr.
+ */
+#include <stdint.h>
+#define FLEX_PTR_TO_ADDR(p)	((FlexAddr)(uintptr_t)(p))
+
 #endif /* LIBFLEX_FLEX_TYPES_H */
